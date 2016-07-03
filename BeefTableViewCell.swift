@@ -13,10 +13,10 @@ class BeefTableViewCell: UITableViewCell {
     // MARK: Properties
     
     
-    @IBOutlet weak var itemName: UILabel!
     @IBOutlet weak var itemPhoto: UIImageView!
+    @IBOutlet weak var itemName: UILabel!
     @IBOutlet weak var itemComment: UILabel!
-    
+        
     
     override func awakeFromNib() {
         super.awakeFromNib()
