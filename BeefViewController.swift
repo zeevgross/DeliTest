@@ -26,10 +26,9 @@ class BeefViewController: UITableViewController {
     func loadSmapleitems(){
         
         let photo1 = UIImage(named: "tbone")!
-        let item1 = productItem (name: "item1", photo: photo1, comment: "item 111")!
-        let item2 = productItem (name: "item2", photo: photo1, comment: "item 222")!
-        let item3 = productItem (name: "item3", photo: photo1, comment: "item 333")!
-        
+        let item1 = productItem (name: "item1", photo: photo1, quantity: "1", weight: "0", comment: "item 111", helpNeeded: false)!
+        let item2 = productItem (name: "item2", photo: photo1, quantity: "1", weight: "0", comment: "item 222", helpNeeded: false)!
+        let item3 = productItem (name: "item3", photo: photo1, quantity: "1", weight: "0", comment: "item 333", helpNeeded: false)!
         productItems += [item1, item2, item3]
 
     }

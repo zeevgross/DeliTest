@@ -20,15 +20,22 @@ class productItem :NSObject {
     
     var name: String
     var photo: UIImage?
+    var quantity: String
+    var weight: String
     var comment: String
+    var helpNeeded: Bool
     
     // MARK: Initialization
     
-    init?(name: String, photo: UIImage?, comment: String) {
+    init?(name: String, photo: UIImage?, quantity: String,weight: String, comment: String, helpNeeded: Bool) {
         // Initialize stored properties.
         self.name = name
         self.photo = photo
         self.comment = comment
+
+        self.quantity = quantity
+        self.weight = weight
+        self.helpNeeded = helpNeeded
         
         super.init()
         
@@ -37,5 +44,5 @@ class productItem :NSObject {
             return nil
         }
     }
-    
+  
 }
