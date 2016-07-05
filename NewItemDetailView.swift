@@ -21,6 +21,7 @@ class NewItemDetailView: UIViewController, UITextFieldDelegate, UIImagePickerCon
     @IBOutlet weak var newItemWeight: UITextField!
     @IBOutlet weak var careNeededSwitch: UISwitch!
     @IBOutlet weak var newItemComment: UITextView!
+    @IBOutlet weak var saveButton: UIButton!
    
    
     override func viewDidLoad() {
@@ -40,6 +41,30 @@ class NewItemDetailView: UIViewController, UITextFieldDelegate, UIImagePickerCon
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if saveButton === sender {
+/*            let name = nameTextField.text ?? ""
+            let photo = photoImageView.image
+            let rating = ratingControl.rating
+            
+            // Set the meal to be passed to MealTableViewController after the unwind segue.
+            meal = Meal(name: name, photo: photo, rating: rating)
+*/
+        
+          if let item = item {
+            
+                item.weight     = newItemWeight.text!
+                item.quantity   = newItemQuantity.text!
+                item.photo      = newItemImage.image
+                item.helpNeeded = careNeededSwitch.on
+                item.comment    = newItemComment.text
+       
+                print ("save button pressed")
+            }
+        }
     }
     
 }

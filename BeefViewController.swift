@@ -34,6 +34,12 @@ class BeefViewController: UITableViewController {
     }
     
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        print ("viewWillAppear")
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -65,6 +71,16 @@ class BeefViewController: UITableViewController {
         
         return cell
     }
-
     
+    @IBAction func unwindToItemList(sender: UIStoryboardSegue) {
+        
+            if let sourceViewController = sender.sourceViewController as? NewItemDetailView, item = sourceViewController.item {
+        
+               // Add a new meal.
+            let newIndexPath = NSIndexPath(forRow: productItems.count, inSection: 0)
+            productItems.append(item)
+            tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Bottom)
+            
+        }
+    }
 }
