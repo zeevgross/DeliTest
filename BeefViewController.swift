@@ -17,9 +17,18 @@ class BeefViewController: UITableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        loadSmapleitems()
         
-        print ("table")
+        // Use the edit button item provided by the table view controller.
+        navigationItem.leftBarButtonItem = editButtonItem()
+        
+        if let savedItemss = loadItems() {
+            productItems += savedItemss
+        }
+        else {
+            
+            // Load the sample data.
+            loadSmapleitems()
+        }
     }
     
     
@@ -33,12 +42,7 @@ class BeefViewController: UITableViewController {
 
     }
     
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        print ("viewWillAppear")
-    }
+ 
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -55,6 +59,24 @@ class BeefViewController: UITableViewController {
         let count = productItems.count
         return count
     }
+    
+    // Override to support editing the table view.
+    
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            
+            // Delete the row from the data source
+        
+            productItems.removeAtIndex(indexPath.row)
+            saveItems()
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        }
+        else if editingStyle == .Insert {
+            
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        }
+    }
+    
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
@@ -76,11 +98,58 @@ class BeefViewController: UITableViewController {
         
             if let sourceViewController = sender.sourceViewController as? NewItemDetailView, item = sourceViewController.item {
         
-               // Add a new meal.
-            let newIndexPath = NSIndexPath(forRow: productItems.count, inSection: 0)
-            productItems.append(item)
-            tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Bottom)
+                if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                    // Update an existing meal.
+
+                    productItems[selectedIndexPath.row] = item
+                    tableView.reloadRowsAtIndexPaths([selectedIndexPath], withRowAnimation: .None)
+                }
+                else
+                {
+                    
+                    // Add a new item
+                    
+                    let newIndexPath = NSIndexPath(forRow: productItems.count, inSection: 0)
+                    productItems.append(item)
+                    tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Bottom)
+                }
+            }
+        
+        // Save the items
+        saveItems()
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier  == "showDetail"{
             
+            let newItemViewController = segue.destinationViewController as! NewItemDetailView
+            
+            // Get the cell that generated this segue
+            
+            if let selectedItemCell = sender as? BeefTableViewCell {
+                let indexPath = tableView.indexPathForCell(selectedItemCell)!
+                let selectedMeal = productItems[indexPath.row]
+                newItemViewController.item = selectedMeal
+            }
         }
     }
+    
+    
+    // MARK: NSCoding
+    
+    func saveItems() {
+        
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(productItems, toFile: productItem.ArchiveURL.path!)
+        
+        if !isSuccessfulSave {
+            print("Failed to save items...")
+        }
+    }
+    
+    func loadItems() -> [productItem]? {
+        
+        return NSKeyedUnarchiver.unarchiveObjectWithFile(productItem.ArchiveURL.path!) as? [productItem]
+        
+    }
+
 }

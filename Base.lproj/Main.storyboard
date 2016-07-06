@@ -378,6 +378,7 @@
                                     <outlet property="itemComment" destination="5ce-ah-z0K" id="zbS-ff-ffE"/>
                                     <outlet property="itemName" destination="fRz-1M-srJ" id="d2q-LX-xGd"/>
                                     <outlet property="itemPhoto" destination="pYr-pf-Dfa" id="Idv-Ws-cCF"/>
+                                    <segue destination="59V-wy-DvY" kind="show" identifier="showDetail" id="ZOl-9Q-baB"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -508,4 +509,7 @@
         <image name="icon" width="399" height="237"/>
         <image name="tbone" width="575" height="323"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="ZOl-9Q-baB"/>
+    </inferredMetricsTieBreakers>
 </document>
