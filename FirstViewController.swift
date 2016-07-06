@@ -8,35 +8,16 @@
 
 import UIKit
 
-
-
-
-
-
-
 class FirstViewController: UIViewController {
 
     // MARK: Proprties
     
-    @IBAction func customerRegistration(sender: AnyObject) {
-
-        print("register")
-    }
-   
-    @IBAction func CustomerLogin(sender: AnyObject) {
-    
-        print("login")
-        print(self.userName.text, "PW" , passWord.text)
-    }
-    
-    @IBOutlet weak var userName: UITextField!
-    @IBOutlet weak var passWord: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        userName.text = "Zeev"
+        //userName.text = "Zeev"
         
     }
 
