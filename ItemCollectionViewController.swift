@@ -13,17 +13,24 @@ class ItemCollectionViewController : UICollectionViewController {
     
     var tableData: [String] = ["T-Bone", "Gound Beef", "Fillet","Osso Bucco"]
     var tableImages: [String] = ["tbone", "ground", "fillet", "osobucco"]
+    var beefInventoryTable = [inventory]()
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    
+        beefInventoryLoad()
+    }
 
     
-    
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return tableData.count
+        return beefInventoryTable.count
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell: ItemCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("ItemCollectionViewCell", forIndexPath: indexPath) as! ItemCollectionViewCell
-        cell.itemName.text = tableData[indexPath.row]
-        cell.itemImage.image = UIImage(named: tableImages[indexPath.row])
+        cell.itemName.text      = beefInventoryTable[indexPath.row].name
+        cell.itemImage.image    = beefInventoryTable[indexPath.row].photo
         return cell
     }
     
@@ -52,4 +59,18 @@ class ItemCollectionViewController : UICollectionViewController {
         }
     }
     
+
+
+    func beefInventoryLoad() {
+        
+        let maxID = tableData.count
+        
+        for id in 0..<maxID{
+            let  item = inventory(itemId: id+1, name : tableData[id], photo: UIImage(named: tableImages[id]))
+            beefInventoryTable.append(item!)
+            //print ("id= \(id)")
+        }
+        
+    }
+
 }
