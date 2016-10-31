@@ -12,6 +12,8 @@ class orderViewController: UITableViewController {
     
     
     var order = CustomerOrder(mail: "zeev.gross.work@gmail.com", store: "8888")
+    var sortedOder = [Int]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +22,7 @@ class orderViewController: UITableViewController {
         // Load the data
         order!.pollOrderStatusRequest(order!.orderResponseTest)
         order!.simResponse()
+        sortByETA()
         
     }
     
@@ -66,8 +69,10 @@ class orderViewController: UITableViewController {
         let cellIdentifier = "orderTableViewCell"
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! orderTableViewCell
         
+        let index = sortedOder[indexPath.row]
+        
         // Fetches the appropriate meal for the data source layout.
-        let deliOrder = order!.orderTracking[indexPath.row]
+        let deliOrder = order!.orderTracking[index]
       /*
         cell.itemName.text = item.name
         cell.itemPhoto.image = item.photo
@@ -82,13 +87,14 @@ class orderViewController: UITableViewController {
         let c1: NSDate = toDateTime(orderCurrentDate)
         
         let interval = s2.timeIntervalSinceDate(s1)
-        let intervalText: String = String(Int(interval/60)) + ":" + String(format: "%02d", Int(interval%60))
+        let remain = s2.timeIntervalSinceDate(c1)
+        let intervalText: String = String(Int(remain/60)) + ":" + String(format: "%02d", Int(remain%60))
         
         // calc Progress bar
         
         let ratio = c1.timeIntervalSinceDate(s1) / interval
         
-        cell.deliName.text = deliOrder.deliName
+        cell.deliName.text = deliOrder.deliName + " Deli"
         cell.progrssBar.progress = Float(ratio)
         cell.timeValue.text = intervalText
         cell.photo.image = deliImage(deliOrder.deliName)
@@ -114,6 +120,44 @@ class orderViewController: UITableViewController {
         }
         
         return UIImage(named: imageName)!
+    }
+    
+    func sortByETA () {
+        
+        var refVal:Int = Int.max
+        
+        var used = [Int](count: 10, repeatedValue: 0)
+        
+        var prevRef = 0
+        var index:Int = 0
+        
+        for i in 0..<order!.orderTracking.count
+        {
+            
+            for j in 0..<order!.orderTracking.count
+            {
+                let orderCurrentDate: String = "29-10-2016 14:05:42"
+                
+                //let s1: NSDate = toDateTime(order!.orderTracking[j].startTime)
+                let s2: NSDate = toDateTime(order!.orderTracking[j].estimedTime)
+                let c1: NSDate = toDateTime(orderCurrentDate)
+                let interval = Int(s2.timeIntervalSinceDate(c1))
+                print ("interval -> \(interval)")
+                if  ((interval < refVal) && (interval >= prevRef) && (used[j] == 0))
+                {
+                    index = j
+                    refVal = interval
+                }
+                
+            }
+            sortedOder.append (index)
+            used[index] = 1
+            prevRef = refVal
+            refVal = Int.max
+        }
+        print("sort -> \(sortedOder)")
+        
+    
     }
     
 }
