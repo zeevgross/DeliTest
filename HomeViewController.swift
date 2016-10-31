@@ -10,8 +10,29 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
+    var order = CustomerOrder(mail: "zeev.gross.work@gmail.com", store: "8888")
+    var pollTimer = NSTimer()
+    var timerUsed = false
+    
+    @IBAction func updateStatus(sender: AnyObject) {
+        print ("update pressed")
+        pollOrder()
+        
+        // Start Timer
+    
+        if timerUsed{
+            pollTimer.invalidate()
+            timerUsed = false
+        }
+        else{
+            pollTimer = NSTimer.scheduledTimerWithTimeInterval(5, target:self, selector: #selector(HomeViewController.pollOrder), userInfo: nil, repeats: true)
+            timerUsed = true
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // Do any additional setup after loading the view, typically from a nib.
         
     }
@@ -20,6 +41,16 @@ class HomeViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func pollOrder(){
+        
+    
+        order!.pollOrderStatusRequest(order!.orderResponseTest)
+        order!.simResponse()
+    
+    }
+    
+    
     
     
 }

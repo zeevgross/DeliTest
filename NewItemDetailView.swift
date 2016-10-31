@@ -95,13 +95,6 @@ class NewItemDetailView: UIViewController, UIScrollViewDelegate, UITextFieldDele
         
         print ( "sender= \(sender)")
         if saveButton === sender {
-/*            let name = nameTextField.text ?? ""
-            let photo = photoImageView.image
-            let rating = ratingControl.rating
-            
-            // Set the meal to be passed to MealTableViewController after the unwind segue.
-            meal = Meal(name: name, photo: photo, rating: rating)
-*/
         
           if let item = item {
             
