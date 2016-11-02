@@ -317,4 +317,39 @@ class BeefViewController: UITableViewController {
         
         }
     }
+    
+    func sendGetCustomerOrder(customerId: Int64)
+    {
+        let urlStr = "http://84.94.180.127:8080/api/v1/orders?customer=" + String(customerId)
+        
+        let url = NSURL(string: urlStr)!
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        
+        // insert json data to the request
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        
+        
+        print ("Request -> \(request)")
+        
+        let task = NSURLSession.sharedSession().dataTaskWithRequest(request){ data, response, error in
+            if error != nil{
+                print("Error -> \(error)")
+                return
+            }
+            
+            do {
+                let result = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? [String:AnyObject]
+                
+                print("Result -> \(result)")
+                
+            } catch {
+                print("Catch Error -> \(error)")
+            }
+        }
+        
+        task.resume()
+        //  return task
+   
+    }
 }

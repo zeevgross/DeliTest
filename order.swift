@@ -264,26 +264,132 @@ class CustomerOrder :NSObject  {
     
     func simResponse(){
  
-        let resultStr: String = "{\"customer\":\"zeev.gross.work@gmail.com\",\"store\":\"1234\",\"deliOrder\":[{\"deliName\":\"Beef\",\"estimatedTime\":\"29-10-2016 14:10:00\",\"orderId\":\"1234\",\"startTime\":\"29-10-2016 14:00:00\"},{\"deliName\":\"Fish\",\"estimatedTime\":\"29-10-2016 14:11:00\",\"orderId\":\"1235\",\"startTime\":\"29-10-2016 14:03:00\"},{\"deliName\":\"Chease\",\"estimatedTime\":\"29-10-2016 14:08:00\",\"orderId\":\"1236\",\"startTime\":\"29-10-2016 14:04:02\"}]}"
+ //       let resultStr: String = "{\"customer\":\"zeev.gross.work@gmail.com\",\"store\":\"1234\",\"deliOrder\":[{\"deliName\":\"Beef\",\"estimatedTime\":\"29-10-2016 14:10:00\",\"orderId\":\"1234\",\"startTime\":\"29-10-2016 14:00:00\"},{\"deliName\":\"Fish\",\"estimatedTime\":\"29-10-2016 14:11:00\",\"orderId\":\"1235\",\"startTime\":\"29-10-2016 14:03:00\"},{\"deliName\":\"Chease\",\"estimatedTime\":\"29-10-2016 14:08:00\",\"orderId\":\"1236\",\"startTime\":\"29-10-2016 14:04:02\"}]}"
         
 
-      
         
+        let resultStr: String = "[{\"id\": 3,\"created\": \"29-10-2016 10:38:21\",\"items\": [{\"id\": 9,\"product\": {\"id\": 1,\"name\": \"Manchego\"},\"quantity\": null,\"weight\": 0.25,      \"comments\": null,\"helpRequired\": false},{\"id\": 10,\"product\": {\"id\": 2,\"name\": \"Mozzarella\"},\"quantity\": null,\"weight\": 0.3,\"comments\": null,\"helpRequired\": false}],\"customerId\": 2,\"deliId\": 1,\"served\": true,\"eta\": \"29-10-2016 10:52:21\"},{\"id\": 4,\"created\": \"29-10-2016 10:48:04\",\"items\": [{\"id\": 11,\"product\": {\"id\": 6,\"name\": \"Schnitzel\"},\"quantity\": 12,\"weight\": null,\"comments\": null,    \"helpRequired\": false},{\"id\": 12,\"product\": {\"id\": 7,\"name\": \"Chicken leg\"},\"quantity\": 3,\"weight\": null,\"comments\": null,\"helpRequired\": false}],\"customerId\": 2,\"deliId\": 2,\"served\": false,\"eta\": \"29-10-2016 10:55:21\"}]"
+            
+        /*
+        {\"id\": 9,\"created\": \"29-10-2016 10:29:26\",\"items\": [{\"id\": 17,\"product\": {\"id\": 1,\"name\": \"Manchego\"},\"quantity\": null,\"weight\": 0.1,\"comments\": null,    \"helpRequired\": false},{\"id\": 18,\"product\": {\"id\": 2,\"name\": \"Mozzarella\"},\"quantity\": null,\"weight\": 0.5,\"comments\": null,\"helpRequired\": false}],\"customerId\": 2,\"deliId\": 1,\"served\": false,\"eta\": null}
+        ]*/
+
+
 //        let resultStr: String = "{\"customer\":\"zeev.gross.work@gmail.com\",\"store\":\"1234\"}"
-        
+
         // convert String to NSData
         let data: NSData = resultStr.dataUsingEncoding(NSUTF8StringEncoding)!
-        
+
         if let myString = NSString(data: data, encoding: NSUTF8StringEncoding) {
             print (myString)
         }
 
       
-        handleResponse(data)
+        handleNewResponse(data)
         
         
     }
+
+    func deliId2name (deli: Int) -> String
+    {
+        var deliName: String = ""
+        
+        switch deli{
+            case 1: deliName = "Chease"
+            case 2: deliName = "Poultry"
+            case 3: deliName = "beef"
+        default:
+            deliName = ""
+        }
+        return deliName
+    }
     
+    func handleNewResponse (data: NSData)
+    {
+        var found: Bool = false
+        var orderId: String
+        
+        var tmpDeliResponse =  orderRsponse()
+        
+        do {
+            let result = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [AnyObject]
+            
+            
+            for i in 0..<result!.count
+            {
+                guard let deli = result![i] as? [String:AnyObject]
+                    else{
+                        return
+                }
+               
+                // Process Deli Order
+
+                
+                print ("deliID = \(deli["deliId"])")
+                print ("id = \(deli["id"])")
+                print ("created = \(deli["created"])")
+                print ("served = \(deli["served"])")
+                print ("CustomerId = \(deli["CustomerId"])")
+                
+                let deliOrderId:Int = (deli["id"] as? Int)!
+   
+                orderId = String(deliOrderId)
+
+                for j in 0..<orderTracking.count
+                {
+                    if (orderTracking[j].orderNum == orderId){
+                        found = true
+                        print ("updated")
+                        
+                        // Update fields
+                        orderTracking[j].estimedTime = (deli["eta"] as? String)!
+                        orderTracking[j].startTime = (deli["created"] as? String)!
+                    }
+                }
+                
+                if found == false{
+                    
+                    // Add new entry
+                    
+                    tmpDeliResponse.orderNum = orderId
+                    tmpDeliResponse.deliName = deliId2name((deli["deliId"] as? Int)!)
+                    tmpDeliResponse.estimedTime = (deli["eta"] as? String)!
+                    tmpDeliResponse.startTime = (deli["created"] as? String)!
+                    orderTracking.append(tmpDeliResponse)
+                    print("Added")
+                }
+
+                
+                // process items (not required !!)
+                
+                
+                guard let items = deli["items"] as? [AnyObject]
+                    else{
+                        return
+                }
+                
+                
+                for j in 0..<items.count
+                {
+                    
+                    print ("itemId = \(items[j]["id"])")
+                    
+                    guard let product = items[j]["product"] as? [String:AnyObject]
+                        else{
+                            return
+                    }
+                    print ("productId = \(product["id"])")
+                    print ("Name = \(product["name"])")
+                    
+                }
+                
+            }
+        }
+            catch {
+                print("Catch Error -> ")
+        }
+     }
+
     
     func handleResponse (data: NSData)
     {
@@ -298,6 +404,8 @@ class CustomerOrder :NSObject  {
         do {
             let result = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String:AnyObject]
 
+            
+            
             guard let cStr = result!["customer"] as? String
             else{
                 return

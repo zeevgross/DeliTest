@@ -80,7 +80,7 @@ class orderViewController: UITableViewController {
       */
         
         
-        let orderCurrentDate: String = "29-10-2016 14:05:42"
+        let orderCurrentDate: String = "29-10-2016 10:50:00"
         
         let s1: NSDate = toDateTime(deliOrder.startTime)
         let s2: NSDate = toDateTime(deliOrder.estimedTime)
@@ -114,6 +114,8 @@ class orderViewController: UITableViewController {
             imageName = "FishDeli"
         case "Chease":
             imageName = "CheaseDeli"
+        case "Poultry":
+            imageName = "PoultryDeli"
 
         default:
             imageName = ""
@@ -136,7 +138,7 @@ class orderViewController: UITableViewController {
             
             for j in 0..<order!.orderTracking.count
             {
-                let orderCurrentDate: String = "29-10-2016 14:05:42"
+                let orderCurrentDate: String = "29-10-2016 10:50:00"
                 
                 //let s1: NSDate = toDateTime(order!.orderTracking[j].startTime)
                 let s2: NSDate = toDateTime(order!.orderTracking[j].estimedTime)
