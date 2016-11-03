@@ -264,7 +264,7 @@ class CustomerOrder :NSObject  {
     
     func simResponse(){
  
- //       let resultStr: String = "{\"customer\":\"zeev.gross.work@gmail.com\",\"store\":\"1234\",\"deliOrder\":[{\"deliName\":\"Beef\",\"estimatedTime\":\"29-10-2016 14:10:00\",\"orderId\":\"1234\",\"startTime\":\"29-10-2016 14:00:00\"},{\"deliName\":\"Fish\",\"estimatedTime\":\"29-10-2016 14:11:00\",\"orderId\":\"1235\",\"startTime\":\"29-10-2016 14:03:00\"},{\"deliName\":\"Chease\",\"estimatedTime\":\"29-10-2016 14:08:00\",\"orderId\":\"1236\",\"startTime\":\"29-10-2016 14:04:02\"}]}"
+ //       let resultStr: String = "{\"customer\":\"zeev.gross.work@gmail.com\",\"store\":\"1234\",\"deliOrder\":[{\"deliName\":\"Beef\",\"estimatedTime\":\"29-10-2016 14:10:00\",\"orderId\":\"1234\",\"startTime\":\"29-10-2016 14:00:00\"},{\"deliName\":\"Fish\",\"estimatedTime\":\"29-10-2016 14:11:00\",\"orderId\":\"1235\",\"startTime\":\"29-10-2016 14:03:00\"},{\"deliName\":\"Cheese\",\"estimatedTime\":\"29-10-2016 14:08:00\",\"orderId\":\"1236\",\"startTime\":\"29-10-2016 14:04:02\"}]}"
         
 
         
@@ -295,7 +295,7 @@ class CustomerOrder :NSObject  {
         var deliName: String = ""
         
         switch deli{
-            case 1: deliName = "Chease"
+            case 1: deliName = "Cheese"
             case 2: deliName = "Poultry"
             case 3: deliName = "beef"
         default:

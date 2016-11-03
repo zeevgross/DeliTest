@@ -112,8 +112,8 @@ class orderViewController: UITableViewController {
             imageName = "BeefDeli"
         case "Fish":
             imageName = "FishDeli"
-        case "Chease":
-            imageName = "CheaseDeli"
+        case "Cheese":
+            imageName = "CheeseDeli"
         case "Poultry":
             imageName = "PoultryDeli"
 
@@ -133,7 +133,7 @@ class orderViewController: UITableViewController {
         var prevRef = 0
         var index:Int = 0
         
-        for i in 0..<order!.orderTracking.count
+        for _ in 0..<order!.orderTracking.count
         {
             
             for j in 0..<order!.orderTracking.count
