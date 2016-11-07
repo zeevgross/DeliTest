@@ -13,7 +13,6 @@ class HomeViewController: UIViewController {
     var order = CustomerOrder(mail: "zeev.gross.work@gmail.com", store: "8888")
     var pollTimer = NSTimer()
     var timerUsed = false
-    var store =  storeInventory(name: "Rishon", id: 123)
     
     @IBAction func updateStatus(sender: AnyObject) {
         print ("update pressed")
@@ -50,8 +49,5 @@ class HomeViewController: UIViewController {
         order!.simResponse()
     
     }
-    
-    
-    
     
 }

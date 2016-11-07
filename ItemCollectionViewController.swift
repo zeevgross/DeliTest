@@ -13,24 +13,24 @@ class ItemCollectionViewController : UICollectionViewController {
     
     var tableData: [String] = ["T-Bone", "Gound Beef", "Fillet","Osso Bucco"]
     var tableImages: [String] = ["tbone", "ground", "fillet", "osobucco"]
-    var beefInventoryTable = [inventory]()
-    
+    var inventoryTable = [inventory]()
+    var store = storeInventory(name: "Rishon", id: 123)
+    var deliName: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
         beefInventoryLoad()
     }
 
     
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return beefInventoryTable.count
+        return inventoryTable.count
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell: ItemCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("ItemCollectionViewCell", forIndexPath: indexPath) as! ItemCollectionViewCell
-        cell.itemName.text      = beefInventoryTable[indexPath.row].name
-        cell.itemImage.image    = beefInventoryTable[indexPath.row].photo
+        cell.itemName.text      = inventoryTable[indexPath.row].name
+        cell.itemImage.image    = inventoryTable[indexPath.row].photo
         return cell
     }
     
@@ -51,8 +51,8 @@ class ItemCollectionViewController : UICollectionViewController {
             
             if let selectedItemlCell = sender as? ItemCollectionViewCell {
                 let indexPath = collectionView!.indexPathForCell(selectedItemlCell)!
-                item!.photo  = UIImage(named: tableImages[indexPath.row])
-                item!.name = tableData[indexPath.row]
+                item!.photo  = inventoryTable[indexPath.row].photo
+                item!.name = inventoryTable[indexPath.row].name
                 newItemDetailView.item = item
             }
             print ("newItemView")
@@ -60,16 +60,29 @@ class ItemCollectionViewController : UICollectionViewController {
     }
     
 
+    func getDeliInventory(name: String) -> [inventoryItem]
+    {
+        for i in 0..<store!.deli.count{
+            if store!.deli[i].deliName == name
+            {
+                return store!.deli[i].Items
+            }
+        }
+        return store!.deli[0].Items
+    }
+    
 
     func beefInventoryLoad() {
         
-        let maxID = tableData.count
+        // load inventory data
+    
+        let myDeli  = getDeliInventory(deliName)
+        let maxID = myDeli.count
         
         for id in 0..<maxID{
-            let  item = inventory(itemId: id+1, name : tableData[id], photo: UIImage(named: tableImages[id]))
-            beefInventoryTable.append(item!)
-            //print ("id= \(id)")
-        }
+            let  item = inventory(itemId: id+1, name : myDeli[id].name, photo: myDeli[id].photo)
+            inventoryTable.append(item!)
+       }
         
     }
 

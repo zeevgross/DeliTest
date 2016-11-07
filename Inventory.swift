@@ -24,7 +24,7 @@ class storeInventory : NSObject
   
         loadDeliItems()
     
-        if storeName.isEmpty {
+        if name.isEmpty {
             return nil
         }
     }

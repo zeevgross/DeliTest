@@ -1,5 +1,5 @@
 //
-//  PoultaryViewController.swift
+//  PoultryViewController.swift
 //  DeliTest
 //
 //  Created by Zeev Gross on 26/06/2016.
@@ -8,9 +8,10 @@
 
 import UIKit
 
-class PoultartViewController: UIViewController {
+class PoultryViewController: DeliViewController {
     
     override func viewDidLoad() {
+        deliName = "Poultry"
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         

@@ -8,9 +8,10 @@
 
 import UIKit
 
-class CheeseViewController: UIViewController {
+class CheeseViewController: DeliViewController {
     
     override func viewDidLoad() {
+        deliName = "Cheese"
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         

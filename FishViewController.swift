@@ -8,9 +8,10 @@
 
 import UIKit
 
-class FishViewController: UIViewController {
+class FishViewController: DeliViewController {
     
     override func viewDidLoad() {
+        deliName = "Fish"
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
