@@ -11,7 +11,7 @@ import UIKit
 class orderViewController: UITableViewController {
     
     
-    var order = CustomerOrder(mail: "zeev.gross.work@gmail.com", store: "8888")
+    //var order = CustomerOrder(mail: "zeev.gross.work@gmail.com", store: "8888")
     var sortedOder = [Int]()
     
     
@@ -20,8 +20,10 @@ class orderViewController: UITableViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         // Load the data
+        
+        
         order!.pollOrderStatusRequest(order!.orderResponseTest)
-        order!.simResponse()
+        order!.handleNewResponse()
         sortByETA()
         
     }

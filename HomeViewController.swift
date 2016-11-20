@@ -10,16 +10,22 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
-    var order = CustomerOrder(mail: "zeev.gross.work@gmail.com", store: "8888")
+    //var order = CustomerOrder(mail: "zeev.gross.work@gmail.com", store: "8888")
     var pollTimer = NSTimer()
     var timerUsed = false
     
     @IBAction func updateStatus(sender: AnyObject) {
         print ("update pressed")
-        pollOrder()
+        
+        //order!.handleNewResponse()
+        
+        
+        order!.buldJsonOrder()
+        
+       // pollOrder()
         
         // Start Timer
-    
+        /*
         if timerUsed{
             pollTimer.invalidate()
             timerUsed = false
@@ -28,12 +34,15 @@ class HomeViewController: UIViewController {
             pollTimer = NSTimer.scheduledTimerWithTimeInterval(5, target:self, selector: #selector(HomeViewController.pollOrder), userInfo: nil, repeats: true)
             timerUsed = true
         }
+         */
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view, typically from a nib.
+        
+       // order = CustomerOrder(mail: "zeev.gross.work@gmail.com", store: "1234")
         
     }
     
@@ -45,8 +54,8 @@ class HomeViewController: UIViewController {
     func pollOrder(){
         
     
-        order!.pollOrderStatusRequest(order!.orderResponseTest)
-        order!.simResponse()
+        //order!.pollOrderStatusRequest(order!.orderResponseTest)
+        order!.handleNewResponse()
     
     }
     

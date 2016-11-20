@@ -17,7 +17,21 @@ struct produceKey{
     static let helpNeededKey: String = "helpNeeded"
 }
 
-class productItem :NSObject, NSCoding  {
+struct productItem  {
+    
+    // MARK: Properties
+    
+    var name: String = ""
+    var photo: UIImage? = nil
+    var quantity: String = ""
+    var weight: String = ""
+    var comment: String = ""
+    var helpNeeded: Bool = false
+}
+
+
+/*
+ class productItem :NSObject, NSCoding  {
     
     // MARK: Properties
     
@@ -83,3 +97,4 @@ class productItem :NSObject, NSCoding  {
 
   
 }
+*/

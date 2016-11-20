@@ -8,9 +8,11 @@
 
 import UIKit
 
+var order = CustomerOrder(mail: "zeev.gross.work@gmail.com", store: "1234")
+
 class DeliViewController: UITableViewController {
     
-    
+ //   var order = CustomerOrder(mail: "zeev.gross.work@gmail.com", store: "1234")
     var productItems = [productItem]()
     var deliName:String = ""
     
@@ -24,10 +26,11 @@ class DeliViewController: UITableViewController {
         
         
         //TODO - change to current order
-        
+       /*
         if let savedItemss = loadItems() {
             productItems += savedItemss
         }
+      */
     }
     
     override func didReceiveMemoryWarning() {
@@ -45,7 +48,9 @@ class DeliViewController: UITableViewController {
         
         //TODO - change to current order
         
-        let count = productItems.count
+        let array =  order?.getItemsArray(deliName)
+        
+        let count = array!.count
         return count
     }
     
@@ -56,8 +61,8 @@ class DeliViewController: UITableViewController {
             
             // Delete the row from the data source
             
-            productItems.removeAtIndex(indexPath.row)
-            saveItems()
+            order!.deliOrders[order!.getItemsArrayIndex(deliName)].items.removeAtIndex(indexPath.row)
+            //saveItems()
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         }
         else if editingStyle == .Insert {
@@ -74,9 +79,9 @@ class DeliViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! BeefTableViewCell
         
         //TODO - change to current order
-        
+        let array =  order?.getItemsArray(deliName)
         // Fetches the appropriate meal for the data source layout.
-        let item = productItems[indexPath.row]
+        let item = array![indexPath.row]
         
         cell.itemName.text = item.name
         cell.itemPhoto.image = item.photo
@@ -92,7 +97,7 @@ class DeliViewController: UITableViewController {
             if let selectedIndexPath = tableView.indexPathForSelectedRow {
                 // Update an existing meal.
                 
-                productItems[selectedIndexPath.row] = item
+                order!.deliOrders[order!.getItemsArrayIndex(deliName)].items[selectedIndexPath.row] = item
                 tableView.reloadRowsAtIndexPaths([selectedIndexPath], withRowAnimation: .None)
             }
             else
@@ -100,14 +105,14 @@ class DeliViewController: UITableViewController {
                 
                 // Add a new item
                 
-                let newIndexPath = NSIndexPath(forRow: productItems.count, inSection: 0)
-                productItems.append(item)
+                let newIndexPath = NSIndexPath(forRow: order!.getItemsCount(deliName), inSection: 0)
+                order!.appendItem(deliName, item: item)
                 tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Bottom)
             }
         }
         
         // Save the items
-        saveItems()
+        //saveItems()
         //buldJsonOrder()
     }
     
@@ -120,7 +125,7 @@ class DeliViewController: UITableViewController {
             
             if let selectedItemCell = sender as? BeefTableViewCell {
                 let indexPath = tableView.indexPathForCell(selectedItemCell)!
-                let selectedMeal = productItems[indexPath.row]
+                let selectedMeal = order!.deliOrders[order!.getItemsArrayIndex(deliName)].items[indexPath.row]
                 newItemViewController.item = selectedMeal
             }
         }
@@ -137,20 +142,27 @@ class DeliViewController: UITableViewController {
     
     
     // MARK: NSCoding
-    
+ /*
     func saveItems() {
-        
+  
         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(productItems, toFile: productItem.ArchiveURL.path!)
         
         if !isSuccessfulSave {
             print("Failed to save items...")
         }
-    }
+ 
+ }
     
     func loadItems() -> [productItem]? {
         
         return NSKeyedUnarchiver.unarchiveObjectWithFile(productItem.ArchiveURL.path!) as? [productItem]
         
     }
+    
+*/
+ 
+    
+    
+    
    
 }

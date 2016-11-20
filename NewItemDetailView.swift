@@ -93,19 +93,18 @@ class NewItemDetailView: UIViewController, UIScrollViewDelegate, UITextFieldDele
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        print ( "sender= \(sender)")
+        
         if saveButton === sender {
         
-          if let item = item {
-            
-                item.weight     = newItemWeight.text!
-                item.quantity   = newItemQuantity.text!
-                item.photo      = newItemImage.image
-                item.helpNeeded = careNeededSwitch.on
-                item.comment    = newItemComment.text
+        // let item = item {
+        // let item = productItem()
+                item!.weight     = newItemWeight.text!
+                item!.quantity   = newItemQuantity.text!
+                item!.photo      = newItemImage.image
+                item!.helpNeeded = careNeededSwitch.on
+                item!.comment    = newItemComment.text
        
-                print ("save button pressed")
-            }
+        //    }
         }
     }
     

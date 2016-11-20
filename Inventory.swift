@@ -89,7 +89,37 @@ class storeInventory : NSObject
         }
     }
 
-
+    func getPhoto (deli: String, item: String) -> UIImage?{
+        
+        for i in 0..<self.deli.count{
+            if self.deli[i].deliName == deli {
+                
+                for j in 0..<self.deli[i].Items.count {
+                    
+                    if self.deli[i].Items[j].name == item{
+                        return  self.deli[i].Items[j].photo!
+                    }
+                }
+            }
+        }
+        return nil
+    }
+    
+    func getItemId (deli: String, item: String) -> Int{
+        
+        for i in 0..<self.deli.count{
+            if self.deli[i].deliName == deli {
+                
+                for j in 0..<self.deli[i].Items.count {
+                    
+                    if self.deli[i].Items[j].name == item{
+                        return  self.deli[i].Items[j].itemId
+                    }
+                }
+            }
+        }
+        return 0
+    }
 }
 
 class deliInventory: NSObject  {

@@ -8,13 +8,15 @@
 
 import UIKit
 
+var store = storeInventory(name: "Rishon", id: 123)
+
 class ItemCollectionViewController : UICollectionViewController {
     
     
     var tableData: [String] = ["T-Bone", "Gound Beef", "Fillet","Osso Bucco"]
     var tableImages: [String] = ["tbone", "ground", "fillet", "osobucco"]
     var inventoryTable = [inventory]()
-    var store = storeInventory(name: "Rishon", id: 123)
+//  var store = storeInventory(name: "Rishon", id: 123)
     var deliName: String = ""
     
     override func viewDidLoad() {
@@ -42,17 +44,16 @@ class ItemCollectionViewController : UICollectionViewController {
     
     /// In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let item = productItem(name: "TST", photo: nil, quantity: "0",weight: "0", comment: "", helpNeeded: false)
         
-        print(" Segue")
+        var item = productItem()
         
         if segue.identifier == "newItemView" {
             let newItemDetailView = segue.destinationViewController as! NewItemDetailView
             
             if let selectedItemlCell = sender as? ItemCollectionViewCell {
                 let indexPath = collectionView!.indexPathForCell(selectedItemlCell)!
-                item!.photo  = inventoryTable[indexPath.row].photo
-                item!.name = inventoryTable[indexPath.row].name
+                item.photo  = inventoryTable[indexPath.row].photo
+                item.name = inventoryTable[indexPath.row].name
                 newItemDetailView.item = item
             }
             print ("newItemView")
